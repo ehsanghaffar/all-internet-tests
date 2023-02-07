@@ -1,6 +1,7 @@
-package tests
+package modules
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -22,6 +23,8 @@ func CheckSpeed(url string) {
 	}
 	elapsedTime := time.Since(startTime)
 	speed := float64(len(body)) / elapsedTime.Seconds()
+	log.Println("URL:", url)
 	log.Printf("Download speed: %.2f Mbps\n", speed/1000000*8)
 	log.Printf("Elapsed time: %s\n", elapsedTime)
+	fmt.Println("------------------------------------------------------------")
 }
