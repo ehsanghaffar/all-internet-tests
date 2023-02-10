@@ -22,8 +22,13 @@ func main() {
 	modules.TestHTTP("https://www.google.com/")
 	modules.TestHTTP("https://www.facebook.com/")
 	modules.TestHTTP("https://www.youtube.com/")
-	modules.TestHTTP("https://twitter.com/")
+	modules.TestHTTP("https://leader.ir/")
 
 	modules.CheckSpeed("https://ehsanghaffarii.ir")
 	modules.CheckSpeed("https://google.com")
+
+	modules.CheckVPN("http://checkip.dyndns.org/")
+
+	modules.PingCheck("www.google.com")
+
 }
