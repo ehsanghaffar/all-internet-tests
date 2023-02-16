@@ -29,6 +29,7 @@ func main() {
 
 	modules.CheckVPN("http://checkip.dyndns.org/")
 
+	modules.PingCheck("www.ehsanghaffarii.ir")
 	modules.PingCheck("www.google.com")
 
 }

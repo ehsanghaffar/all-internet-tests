@@ -14,7 +14,6 @@ func PingCheck(domain string) {
 	if err != nil {
 		panic(err)
 	}
-
 	// Listen for Ctrl-C.
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
@@ -27,6 +26,11 @@ func PingCheck(domain string) {
 	pinger.OnRecv = func(pkt *ping.Packet) {
 		log.Printf("%d bytes from %s: icmp_seq=%d time=%v\n",
 			pkt.Nbytes, pkt.IPAddr, pkt.Seq, pkt.Rtt)
+
+		// TODO: find best practice for this
+		if pkt.Seq >= 5 {
+			pinger.Stop()
+		}
 	}
 
 	pinger.OnDuplicateRecv = func(pkt *ping.Packet) {
@@ -47,4 +51,5 @@ func PingCheck(domain string) {
 	if err != nil {
 		panic(err)
 	}
+
 }
