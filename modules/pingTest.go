@@ -1,11 +1,14 @@
 package modules
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/signal"
 
+	"github.com/ehsanghaffar/ultimate-internet-test/utils"
 	"github.com/go-ping/ping"
 )
 
@@ -44,6 +47,13 @@ func PingCheck(domain string) {
 			stats.PacketsSent, stats.PacketsRecv, stats.PacketLoss)
 		fmt.Printf("round-trip min/avg/max/stddev = %v/%v/%v/%v\n",
 			stats.MinRtt, stats.AvgRtt, stats.MaxRtt, stats.StdDevRtt)
+		// TODO
+		saveToJson(&utils.PingTest{
+			URL:         stats.Addr,
+			Transmitted: stats.PacketsSent,
+			Received:    stats.PacketsRecv,
+			Loss:        stats.PacketLoss,
+		})
 	}
 
 	fmt.Printf("PING %s (%s):\n", pinger.Addr(), pinger.IPAddr())
@@ -51,5 +61,33 @@ func PingCheck(domain string) {
 	if err != nil {
 		panic(err)
 	}
+
+}
+
+// Save ping result to the json file
+// Note: this is ugly code, need to improve
+// TODO: Find Best Practice and Improve it
+
+func saveToJson(pingRes *utils.PingTest) {
+
+	jsonFields := utils.Tests{}
+
+	vpnFields, err := ioutil.ReadFile("data.json")
+	if err != nil {
+		os.Exit(1)
+	}
+	unmarshalErr := json.Unmarshal(vpnFields, &jsonFields)
+	if unmarshalErr != nil {
+		fmt.Println("Json unmarshalErr: ", unmarshalErr)
+	}
+
+	jsonFields.PingTest = *pingRes
+
+	pingTestResult, marshalErr := json.MarshalIndent(jsonFields, "", "  ")
+	if marshalErr != nil {
+		fmt.Println("Json marshalErr: ", marshalErr)
+	}
+
+	ioutil.WriteFile("data.json", pingTestResult, 0644)
 
 }

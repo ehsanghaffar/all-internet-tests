@@ -1,0 +1,10 @@
+{
+  "vpn_test": {
+    "status": "Using VPN or proxy."
+  },
+  "ping_test": {
+    "url": "www.ehsanghaffarii.ir",
+    "transmitted_packets": 6,
+    "received_packets": 6
+  }
+}
