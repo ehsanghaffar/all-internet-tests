@@ -1,22 +1,25 @@
 package main
 
 import (
+	"flag"
+	"log"
+
 	"github.com/ehsanghaffar/ultimate-internet-test/modules"
 )
 
 func main() {
 
-	// flag.Parse()
+	flag.Parse()
 
-	// log.SetFlags(log.LstdFlags | log.Lmicroseconds)
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
 
-	// args := flag.Args()
-	// if len(args) > 0 {
-	// 	for _, url := range args {
-	// 		modules.TestHTTP(url)
-	// 	}
-	// 	return
-	// }
+	args := flag.Args()
+	if len(args) > 0 {
+		for _, url := range args {
+			modules.TestHTTP(url)
+		}
+		return
+	}
 
 	modules.TestHTTP("http://www.google.com/")
 	modules.TestHTTP("https://www.google.com/")
